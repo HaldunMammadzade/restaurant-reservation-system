@@ -100,7 +100,7 @@ const Header = ({ onMenuClick }) => {
                 </p>
                 <p className="text-[11px] text-slate-500 capitalize">{user?.role || 'Manager'}</p>
               </div>
-              <div className="w-9 h-9 bg-gradient-to-br from-primary-500 to-violet-600 rounded-xl flex items-center justify-center text-white text-sm font-bold shadow-md">
+              <div className="w-9 h-9 bg-primary-600 rounded-xl flex items-center justify-center text-white text-sm font-bold">
                 {getInitials(user?.name || 'Admin')}
               </div>
             </div>

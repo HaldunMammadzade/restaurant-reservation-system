@@ -10,24 +10,30 @@ import {
   Plus,
   Grid3x3,
   BarChart3,
-  Settings,
   ArrowRight,
+  MessageSquare,
+  PartyPopper,
+  ChefHat,
+  Printer,
+  ClipboardList,
 } from 'lucide-react';
 import { AreaChart, Area, ResponsiveContainer, XAxis, YAxis, Tooltip } from 'recharts';
 import Card from '../components/common/Card';
 import PageHeader from '../components/common/PageHeader';
 import StatCard from '../components/dashboard/StatCard';
 import ActivityFeed from '../components/dashboard/ActivityFeed';
-import AIBanner from '../components/dashboard/AIBanner';
+import TodayBanner from '../components/dashboard/TodayBanner';
 import Badge from '../components/common/Badge';
 import { formatCurrency } from '../utils/helpers';
 import { mockAnalytics } from '../utils/mockData';
 import { useApp } from '../context/AppContext';
+import { printTodayRunSheet } from '../utils/runSheet';
+import toast from 'react-hot-toast';
 import { RESERVATION_STATUS_LABELS, RESERVATION_STATUS_COLORS } from '../utils/constants';
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const { todayReservations, tables, occupancyRate } = useApp();
+  const { todayReservations, tables, occupancyRate, upcomingEvents, automations, smsLogs, reservations, events, waitlist, restaurant } = useApp();
   const stats = mockAnalytics.stats;
   const chartData = mockAnalytics.chartData.daily;
 
@@ -63,11 +69,18 @@ const Dashboard = () => {
   ];
 
   const quickActions = [
-    { label: 'Yeni Rezervasiya', icon: Calendar, gradient: 'from-blue-500 to-blue-600', path: '/reservations' },
-    { label: 'Masa Planı', icon: Grid3x3, gradient: 'from-emerald-500 to-emerald-600', path: '/floor-plan' },
-    { label: 'Analitika', icon: BarChart3, gradient: 'from-violet-500 to-purple-600', path: '/analytics' },
-    { label: 'Tənzimləmələr', icon: Settings, gradient: 'from-amber-500 to-orange-600', path: '/settings' },
+    { label: 'Yeni Rezervasiya', icon: Calendar, color: 'bg-blue-100 text-blue-600', path: '/reservations' },
+    { label: 'Tədbir Planla', icon: PartyPopper, color: 'bg-pink-100 text-pink-600', path: '/events' },
+    { label: 'Masa Planı', icon: Grid3x3, color: 'bg-emerald-100 text-emerald-600', path: '/floor-plan' },
+    { label: 'Operativ Mərkəz', icon: ClipboardList, color: 'bg-indigo-100 text-indigo-600', path: '/operations' },
+    { label: 'Mətbəx', icon: ChefHat, color: 'bg-orange-100 text-orange-600', path: '/kitchen' },
+    { label: 'Mesajlar', icon: MessageSquare, color: 'bg-slate-100 text-slate-600', path: '/communications' },
   ];
+
+  const handlePrintRunSheet = () => {
+    const ok = printTodayRunSheet({ restaurant, reservations, events, waitlist, tables });
+    if (!ok) toast.error('Çap pəncərəsi bloklanıb — brauzer icazəsi verin');
+  };
 
   const tableStatus = {
     available: { label: 'Boş', color: 'bg-emerald-500', count: tables.filter(t => t.status === 'available').length },
@@ -82,9 +95,32 @@ const Dashboard = () => {
         title="Dashboard"
         subtitle="Restoranınızın real-time statistikası"
         badge="Canlı"
+        action={
+          <button onClick={handlePrintRunSheet} className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-slate-700 bg-white border border-slate-200 rounded-xl hover:bg-slate-50">
+            <Printer size={16} /> Günün run sheet
+          </button>
+        }
       />
 
-      <AIBanner />
+      <TodayBanner />
+
+      <Card title="Avtomatik tapşırıqlar" subtitle="Planlaşdırılmış və real-time işlər" premium delay={0.05}
+        headerAction={<span className="text-xs font-medium text-slate-500">{automations.filter((a) => a.status === 'active').length} aktiv</span>}>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+          {automations.map((auto) => (
+            <div key={auto.id} className="flex items-center gap-3 p-3 bg-slate-50 rounded-lg border border-slate-100">
+              <div className={`w-2 h-2 rounded-full flex-shrink-0 ${auto.status === 'active' ? 'bg-emerald-500' : 'bg-amber-400'}`} />
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium text-slate-800 truncate">{auto.label}</p>
+                <p className="text-[10px] text-slate-400">{auto.time} · {auto.count} element</p>
+              </div>
+              <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${auto.status === 'active' ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700'}`}>
+                {auto.status === 'active' ? 'Aktiv' : 'Planlanır'}
+              </span>
+            </div>
+          ))}
+        </div>
+      </Card>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-5">
         {statsCards.map((stat, index) => (
@@ -113,7 +149,7 @@ const Dashboard = () => {
                   onClick={() => navigate('/reservations')}
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-11 h-11 bg-gradient-to-br from-primary-500 to-primary-600 rounded-xl flex items-center justify-center shadow-md">
+                    <div className="w-11 h-11 bg-primary-600 rounded-xl flex items-center justify-center">
                       <span className="text-white font-bold">{reservation.tableNumber}</span>
                     </div>
                     <div>
@@ -167,7 +203,7 @@ const Dashboard = () => {
               </div>
               <div className="mt-3 h-2 bg-slate-100 rounded-full overflow-hidden">
                 <div 
-                  className="h-full bg-gradient-to-r from-primary-500 to-violet-500 rounded-full transition-all duration-1000"
+                  className="h-full bg-primary-600 rounded-full transition-all duration-1000"
                   style={{ width: `${occupancyRate}%` }}
                 />
               </div>
@@ -211,16 +247,48 @@ const Dashboard = () => {
         </Card>
       </div>
 
-      <Card title="Tez Əməliyyatlar" premium delay={0.5}>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        <Card title="Yaxınlaşan Tədbirlər" premium delay={0.48}
+          headerAction={<button onClick={() => navigate('/events')} className="text-sm text-primary-600 font-semibold flex items-center gap-1">Hamısı <ArrowRight size={14} /></button>}>
+          <div className="space-y-2">
+            {upcomingEvents.slice(0, 4).map((ev) => (
+              <div key={ev.id} onClick={() => navigate('/events')} className="flex items-center justify-between p-3 bg-slate-50 rounded-xl cursor-pointer hover:bg-slate-100 transition-colors">
+                <div>
+                  <p className="text-sm font-semibold text-slate-800">{ev.title}</p>
+                  <p className="text-xs text-slate-500">{ev.partySize} nəfər · {ev.startTime}</p>
+                </div>
+                <span className="text-xs font-bold text-primary-600">{Math.round((ev.checklist?.filter(c => c.done).length / ev.checklist?.length) * 100) || 0}%</span>
+              </div>
+            ))}
+          </div>
+        </Card>
+
+        <Card title="Son SMS / Bildirişlər" premium delay={0.5}
+          headerAction={<MessageSquare size={16} className="text-primary-500" />}>
+          <div className="space-y-2">
+            {smsLogs.slice(0, 4).map((sms) => (
+              <div key={sms.id} className="p-3 bg-slate-50 rounded-xl">
+                <div className="flex justify-between text-xs mb-1">
+                  <span className="font-semibold text-slate-700">{sms.to}</span>
+                  <span className="text-emerald-600">{sms.status}</span>
+                </div>
+                <p className="text-[11px] text-slate-500 line-clamp-2">{sms.message}</p>
+              </div>
+            ))}
+          </div>
+        </Card>
+      </div>
+
+      <Card title="Tez Əməliyyatlar" premium delay={0.52}>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
           {quickActions.map((action) => (
             <button
               key={action.label}
               onClick={() => navigate(action.path)}
               className="flex flex-col items-center gap-3 p-5 bg-slate-50 hover:bg-white rounded-2xl transition-all duration-300 hover:shadow-premium border border-transparent hover:border-slate-200 group"
             >
-              <div className={`w-12 h-12 bg-gradient-to-br ${action.gradient} rounded-2xl flex items-center justify-center shadow-md group-hover:scale-110 transition-transform`}>
-                <action.icon size={22} className="text-white" />
+              <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${action.color}`}>
+                <action.icon size={22} />
               </div>
               <span className="text-xs font-semibold text-slate-600 text-center group-hover:text-slate-800">
                 {action.label}

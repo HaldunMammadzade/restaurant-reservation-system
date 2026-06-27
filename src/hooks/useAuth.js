@@ -2,8 +2,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { loginStart, loginSuccess, loginFailure, logout } from '../store/slices/authSlice';
 import { setCurrentRestaurant } from '../store/slices/restaurantSlice';
-import { authService } from '../services/authService';
-import { mockUser, mockRestaurant, DEMO_CREDENTIALS } from '../utils/mockData';
+import { DEMO_CREDENTIALS, mockUser, mockRestaurant } from '../utils/mockData';
 import toast from 'react-hot-toast';
 
 export const useAuth = () => {
@@ -11,83 +10,53 @@ export const useAuth = () => {
   const navigate = useNavigate();
   const { user, isAuthenticated, loading, error } = useSelector((state) => state.auth);
 
-  const demoLogin = () => {
-    dispatch(loginStart());
-    setTimeout(() => {
-      dispatch(loginSuccess({ user: mockUser, token: 'demo-token-seatmind' }));
-      dispatch(setCurrentRestaurant(mockRestaurant));
-      toast.success('Demo rejiminə xoş gəldiniz!');
-      navigate('/dashboard');
-    }, 800);
+  const handleAuthSuccess = (data) => {
+    localStorage.setItem('token', data.token);
+    dispatch(loginSuccess({ user: data.user, token: data.token }));
+    dispatch(setCurrentRestaurant(data.user.restaurant || mockRestaurant));
+    toast.success('Uğurla daxil oldunuz!');
+    navigate('/dashboard');
   };
 
   const login = async (email, password) => {
-    if (
-      email === DEMO_CREDENTIALS.email &&
-      password === DEMO_CREDENTIALS.password
-    ) {
-      dispatch(loginStart());
-      setTimeout(() => {
-        dispatch(loginSuccess({ user: mockUser, token: 'demo-token-seatmind' }));
-        dispatch(setCurrentRestaurant(mockRestaurant));
-        toast.success('Uğurla daxil oldunuz!');
-        navigate('/dashboard');
-      }, 600);
+    dispatch(loginStart());
+    await new Promise((r) => setTimeout(r, 400));
+
+    if (email === DEMO_CREDENTIALS.email && password === DEMO_CREDENTIALS.password) {
+      handleAuthSuccess({
+        token: 'seatmind-demo-token',
+        user: { ...mockUser, restaurant: mockRestaurant },
+      });
       return;
     }
 
-    try {
-      dispatch(loginStart());
-      const data = await authService.login(email, password);
-      dispatch(loginSuccess(data));
-      dispatch(setCurrentRestaurant(mockRestaurant));
-      toast.success('Uğurla daxil oldunuz!');
-      navigate('/dashboard');
-    } catch {
-      dispatch(loginStart());
-      setTimeout(() => {
-        dispatch(loginSuccess({ user: mockUser, token: 'demo-token-seatmind' }));
-        dispatch(setCurrentRestaurant(mockRestaurant));
-        toast.success('Demo rejiminə daxil oldunuz!');
-        navigate('/dashboard');
-      }, 600);
-    }
+    const message = 'Email və ya şifrə yanlışdır (demo: demo@seatmind.az / demo123)';
+    dispatch(loginFailure(message));
+    toast.error(message);
   };
 
   const register = async (userData) => {
-    try {
-      dispatch(loginStart());
-      const data = await authService.register(userData);
-      dispatch(loginSuccess(data));
-      dispatch(setCurrentRestaurant(mockRestaurant));
-      toast.success('Qeydiyyat uğurla tamamlandı!');
-      navigate('/dashboard');
-    } catch {
-      dispatch(loginStart());
-      setTimeout(() => {
-        const newUser = { ...mockUser, name: userData.name, email: userData.email };
-        dispatch(loginSuccess({ user: newUser, token: 'demo-token-seatmind' }));
-        dispatch(setCurrentRestaurant({ ...mockRestaurant, name: userData.restaurantName || mockRestaurant.name }));
-        toast.success('Demo hesab yaradıldı!');
-        navigate('/dashboard');
-      }, 800);
-    }
+    dispatch(loginStart());
+    await new Promise((r) => setTimeout(r, 600));
+
+    const newUser = {
+      ...mockUser,
+      name: userData.name,
+      email: userData.email,
+      restaurant: { ...mockRestaurant, name: userData.restaurantName },
+    };
+    handleAuthSuccess({ token: 'seatmind-demo-token', user: newUser });
+    toast.success('Qeydiyyat uğurla tamamlandı!');
   };
+
+  const demoLogin = () => login(DEMO_CREDENTIALS.email, DEMO_CREDENTIALS.password);
 
   const logoutUser = () => {
     dispatch(logout());
+    localStorage.removeItem('token');
     toast.success('Çıxış edildi');
     navigate('/login');
   };
 
-  return {
-    user,
-    isAuthenticated,
-    loading,
-    error,
-    login,
-    register,
-    logout: logoutUser,
-    demoLogin,
-  };
+  return { user, isAuthenticated, loading, error, login, register, logout: logoutUser, demoLogin };
 };

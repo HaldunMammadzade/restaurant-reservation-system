@@ -1,16 +1,49 @@
-# React + Vite
+# SeatMind — AI Restoran İdarəetmə Platforması
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Premium restoran idarəetmə sistemi — investor təqdimatı və demo üçün hazırlanmış tam funksional frontend.
 
-Currently, two official plugins are available:
+## Texnologiyalar
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+| Layer | Stack |
+|-------|-------|
+| Frontend | React 18, Vite, Tailwind CSS, Redux, Framer Motion |
+| Data | Mock data + localStorage (backend yoxdur) |
 
-## React Compiler
+## Sürətli Başlanğıc
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```bash
+npm install
+npm run dev
+```
 
-## Expanding the ESLint configuration
+Frontend: http://localhost:5173
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Demo Giriş
+
+- **Email:** `demo@seatmind.az`
+- **Şifrə:** `demo123`
+
+## Əsas Funksionallıqlar
+
+- **Dashboard** — Real-time statistika, AI banner, gəlir trendi
+- **Rezervasiyalar** — Əlavə et, redaktə et, sil, check-in, VIP badge
+- **Gözləmə Siyahısı** — Prioritet, oturma, masa təyinatı
+- **Çoxmərtəbəli Masa Planı** — 4 mərtəbə, xidmət fazaları, canlı izləmə, drag & drop
+- **Müştəri CRM** — VIP idarəetməsi, etiketlər, axtarış
+- **Menyu** — Şəkil yükləmə, kateqoriyalar, CRUD
+- **Personal** — Mərtəbə üzrə növbə, status idarəetməsi
+- **Analitika** — Qrafiklər, CSV export, AI tövsiyələri
+- **AI Mərkəzi** — Mərtəbə analizi, proqnozlar
+- **QR Rezervasiya** — `/book/SM-NIZAMI2026` public booking
+- **Command Palette** — `Cmd+K` global axtarış
+
+## Struktur
+
+```
+seatmind/
+├── src/              # React frontend
+├── public/logo.svg   # SeatMind logo
+└── README.md
+```
+
+Bütün məlumatlar brauzerin `localStorage`-ında saxlanılır. Tənzimləmələr səhifəsindən demo məlumatları bərpa edə bilərsiniz.

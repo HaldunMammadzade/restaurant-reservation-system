@@ -10,7 +10,7 @@ const AppInitializer = ({ children }) => {
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
-      dispatch(loginSuccess({ user: mockUser, token }));
+      dispatch(loginSuccess({ user: { ...mockUser, restaurant: mockRestaurant }, token }));
       dispatch(setCurrentRestaurant(mockRestaurant));
     }
   }, [dispatch]);

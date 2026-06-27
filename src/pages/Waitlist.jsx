@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Plus, Clock, Users, Phone, Trash2, UserCheck, AlertTriangle } from 'lucide-react';
+import { Plus, Clock, Users, Phone, Trash2, UserCheck, AlertTriangle, Timer } from 'lucide-react';
 import { motion } from 'framer-motion';
 import Card from '../components/common/Card';
 import PageHeader from '../components/common/PageHeader';
@@ -12,7 +12,7 @@ import { az } from 'date-fns/locale';
 import toast from 'react-hot-toast';
 
 const Waitlist = () => {
-  const { waitlist, tables, addToWaitlist, removeFromWaitlist, seatFromWaitlist } = useApp();
+  const { waitlist, tables, addToWaitlist, removeFromWaitlist, seatFromWaitlist, turnQueue } = useApp();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [seatModal, setSeatModal] = useState(null);
   const [formData, setFormData] = useState({ customerName: '', customerPhone: '', partySize: 2 });
@@ -38,7 +38,9 @@ const Waitlist = () => {
   const priorityColors = {
     high: 'bg-rose-50 text-rose-700 ring-rose-200',
     normal: 'bg-slate-50 text-slate-600 ring-slate-200',
+    vip: 'bg-amber-50 text-amber-800 ring-amber-200',
   };
+  const priorityLabels = { high: 'Yüksək', normal: 'Normal', vip: 'VIP' };
 
   return (
     <div className="space-y-6">
@@ -77,6 +79,25 @@ const Waitlist = () => {
         ))}
       </div>
 
+      {turnQueue.length > 0 && (
+        <Card title="Turn növbəsi" subtitle="Tezliklə boşalacaq masalar" premium>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            {turnQueue.slice(0, 6).map(({ table, remaining, elapsed }) => (
+              <div key={table.id} className="p-3 bg-slate-50 rounded-xl border border-slate-100">
+                <div className="flex items-center justify-between">
+                  <p className="font-bold text-slate-800">Masa {table.number}</p>
+                  <span className="flex items-center gap-1 text-xs text-primary-600 font-medium">
+                    <Timer size={12} />{remaining} dəq
+                  </span>
+                </div>
+                <p className="text-xs text-slate-500 mt-1">{table.guestName || 'Qonaq'} · {table.partySize} nəfər · {elapsed} dəq oturub</p>
+                <p className="text-[10px] text-slate-400 mt-1">{table.zone}</p>
+              </div>
+            ))}
+          </div>
+        </Card>
+      )}
+
       {waitlist.length === 0 ? (
         <Card premium>
           <div className="text-center py-16">
@@ -100,14 +121,14 @@ const Waitlist = () => {
             >
               <div className="flex items-center justify-between gap-4">
                 <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500 to-violet-600 flex items-center justify-center text-white font-bold text-sm">
+                  <div className="w-10 h-10 rounded-xl bg-primary-600 flex items-center justify-center text-white font-bold text-sm">
                     {index + 1}
                   </div>
                   <div>
                     <div className="flex items-center gap-2">
                       <h3 className="font-semibold text-slate-800">{entry.customerName}</h3>
                       <span className={`px-2 py-0.5 text-[10px] font-bold rounded-full ring-1 ${priorityColors[entry.priority]}`}>
-                        {entry.priority === 'high' ? 'Prioritet' : 'Normal'}
+                        {priorityLabels[entry.priority] || entry.priority}
                       </span>
                     </div>
                     <div className="flex items-center gap-3 mt-1 text-xs text-slate-500">

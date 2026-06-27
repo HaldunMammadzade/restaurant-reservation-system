@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Save, Building, Clock, Bell, Users } from 'lucide-react';
+import { Save, Building, Clock, Bell, Users, Ban, Plus, Trash2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Card from '../components/common/Card';
 import PageHeader from '../components/common/PageHeader';
@@ -7,7 +7,6 @@ import Button from '../components/common/Button';
 import Input from '../components/common/Input';
 import Select from '../components/common/Select';
 import { useApp } from '../context/AppContext';
-import { mockUser } from '../utils/mockData';
 import toast from 'react-hot-toast';
 
 const dayLabels = {
@@ -16,21 +15,25 @@ const dayLabels = {
 };
 
 const Settings = () => {
-  const { restaurant, setRestaurant } = useApp();
+  const { restaurant, setRestaurant, resetDemoData, user, setUserRole } = useApp();
   const [activeTab, setActiveTab] = useState('restaurant');
-  const [userData, setUserData] = useState(mockUser);
+  const [userData, setUserData] = useState(user);
   const [notifications, setNotifications] = useState({
     email: true, sms: true, whatsapp: true, autoConfirm: false,
   });
 
+  const [blockedForm, setBlockedForm] = useState({ date: '', reason: '', allDay: true, slots: '' });
+
   const tabs = [
     { id: 'restaurant', label: 'Restoran', icon: Building },
     { id: 'hours', label: 'İş Saatları', icon: Clock },
+    { id: 'capacity', label: 'Kapasitet', icon: Ban },
     { id: 'notifications', label: 'Bildirişlər', icon: Bell },
     { id: 'profile', label: 'Profil', icon: Users },
   ];
 
   const handleSave = () => {
+    setUserRole(userData.role);
     toast.success('Tənzimləmələr yadda saxlanıldı!');
   };
 
@@ -47,7 +50,7 @@ const Settings = () => {
                 onClick={() => setActiveTab(tab.id)}
                 className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 text-sm ${
                   activeTab === tab.id
-                    ? 'bg-gradient-to-r from-primary-600 to-primary-500 text-white shadow-md'
+                    ? 'bg-primary-600 text-white'
                     : 'text-slate-600 hover:bg-slate-50'
                 }`}
               >
@@ -81,6 +84,9 @@ const Settings = () => {
                       <Input label="Maksimum Qrup Sayı" type="number" value={restaurant.settings.maxPartySize} onChange={(e) => setRestaurant({ ...restaurant, settings: { ...restaurant.settings, maxPartySize: e.target.value } })} />
                     </div>
                     <Button type="submit" variant="primary" fullWidth icon={<Save size={18} />}>Dəyişiklikləri Yadda Saxla</Button>
+                    <Button type="button" variant="outline" fullWidth onClick={() => { resetDemoData(); toast.success('Demo məlumatlar bərpa edildi'); }}>
+                      Demo Məlumatları Bərpa Et
+                    </Button>
                   </form>
                 </Card>
               )}
@@ -100,6 +106,73 @@ const Settings = () => {
                       </div>
                     ))}
                     <Button type="button" variant="primary" fullWidth icon={<Save size={18} />} onClick={handleSave}>Dəyişiklikləri Yadda Saxla</Button>
+                  </div>
+                </Card>
+              )}
+
+              {activeTab === 'capacity' && (
+                <Card title="Kapasitet və bağlı günlər" premium>
+                  <div className="space-y-4">
+                    <Input label="Saat başına maksimum qonaq (covers)" type="number"
+                      value={restaurant.settings.maxCoversPerSlot || ''}
+                      onChange={(e) => setRestaurant({
+                        ...restaurant,
+                        settings: { ...restaurant.settings, maxCoversPerSlot: parseInt(e.target.value, 10) || 0 },
+                      })}
+                      placeholder="Məs: 48" />
+                    <p className="text-xs text-slate-500">Online rezervasiya və QR booking bu limiti nəzərə alır.</p>
+
+                    <div className="pt-2 border-t border-slate-100">
+                      <h4 className="text-sm font-semibold text-slate-800 mb-3">Bağlı tarixlər</h4>
+                      <div className="space-y-2 mb-4">
+                        {(restaurant.settings.blockedDates || []).map((bd, idx) => (
+                          <div key={`${bd.date}-${idx}`} className="flex items-start justify-between gap-3 p-3 bg-slate-50 rounded-xl">
+                            <div>
+                              <p className="text-sm font-medium text-slate-800">{new Date(bd.date).toLocaleDateString('az-AZ', { weekday: 'short', day: 'numeric', month: 'long' })}</p>
+                              <p className="text-xs text-slate-500 mt-0.5">{bd.reason}</p>
+                              <p className="text-[10px] text-slate-400 mt-1">{bd.allDay ? 'Bütün gün bağlı' : `Slotlar: ${(bd.slots || []).join(', ')}`}</p>
+                            </div>
+                            <button type="button" onClick={() => {
+                              const next = [...(restaurant.settings.blockedDates || [])];
+                              next.splice(idx, 1);
+                              setRestaurant({ ...restaurant, settings: { ...restaurant.settings, blockedDates: next } });
+                            }} className="p-1.5 text-rose-500 hover:bg-rose-50 rounded-lg"><Trash2 size={14} /></button>
+                          </div>
+                        ))}
+                      </div>
+
+                      <div className="p-4 border border-dashed border-slate-200 rounded-xl space-y-3">
+                        <p className="text-xs font-medium text-slate-600">Yeni bağlı tarix</p>
+                        <Input label="Tarix" type="date" value={blockedForm.date} onChange={(e) => setBlockedForm({ ...blockedForm, date: e.target.value })} />
+                        <Input label="Səbəb" value={blockedForm.reason} onChange={(e) => setBlockedForm({ ...blockedForm, reason: e.target.value })} placeholder="Private tədbir, təmir..." />
+                        <label className="flex items-center gap-2 text-sm">
+                          <input type="checkbox" checked={blockedForm.allDay} onChange={(e) => setBlockedForm({ ...blockedForm, allDay: e.target.checked })} />
+                          Bütün gün bağlı
+                        </label>
+                        {!blockedForm.allDay && (
+                          <Input label="Bağlı slotlar (vergüllə)" value={blockedForm.slots} onChange={(e) => setBlockedForm({ ...blockedForm, slots: e.target.value })} placeholder="19:00, 19:30, 20:00" />
+                        )}
+                        <Button type="button" variant="outline" icon={<Plus size={16} />} onClick={() => {
+                          if (!blockedForm.date || !blockedForm.reason) { toast.error('Tarix və səbəb daxil edin'); return; }
+                          const entry = {
+                            date: blockedForm.date,
+                            reason: blockedForm.reason,
+                            allDay: blockedForm.allDay,
+                            slots: blockedForm.allDay ? [] : blockedForm.slots.split(',').map((s) => s.trim()).filter(Boolean),
+                          };
+                          setRestaurant({
+                            ...restaurant,
+                            settings: {
+                              ...restaurant.settings,
+                              blockedDates: [...(restaurant.settings.blockedDates || []), entry],
+                            },
+                          });
+                          setBlockedForm({ date: '', reason: '', allDay: true, slots: '' });
+                          toast.success('Bağlı tarix əlavə edildi');
+                        }}>Əlavə et</Button>
+                      </div>
+                    </div>
+                    <Button type="button" variant="primary" fullWidth icon={<Save size={18} />} onClick={handleSave}>Yadda saxla</Button>
                   </div>
                 </Card>
               )}
@@ -133,7 +206,7 @@ const Settings = () => {
                 <Card title="Profil Məlumatları" premium>
                   <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); handleSave(); }}>
                     <div className="flex items-center gap-5 mb-4">
-                      <div className="w-20 h-20 bg-gradient-to-br from-primary-500 to-violet-600 rounded-2xl flex items-center justify-center text-white text-2xl font-bold shadow-lg">
+                      <div className="w-20 h-20 bg-primary-600 rounded-xl flex items-center justify-center text-white text-2xl font-bold">
                         {userData.name.split(' ').map(n => n[0]).join('').slice(0, 2)}
                       </div>
                       <div>
@@ -143,11 +216,14 @@ const Settings = () => {
                     </div>
                     <Input label="Ad Soyad" name="name" value={userData.name} onChange={(e) => setUserData({ ...userData, name: e.target.value })} required />
                     <Input label="Email" name="email" type="email" value={userData.email} onChange={(e) => setUserData({ ...userData, email: e.target.value })} required />
-                    <Select label="Rol" name="role" value={userData.role} options={[
+                    <Select label="Rol" name="role" value={userData.role} onChange={(e) => setUserData({ ...userData, role: e.target.value })} options={[
                       { value: 'admin', label: 'Administrator' },
                       { value: 'manager', label: 'Menecer' },
-                      { value: 'staff', label: 'İşçi' },
-                    ]} disabled />
+                      { value: 'hostess', label: 'Hostess' },
+                      { value: 'server', label: 'Ofisiant' },
+                      { value: 'kitchen', label: 'Mətbəx' },
+                    ]} />
+                    <p className="text-xs text-slate-500">Rol dəyişdikdə sidebar menyusu avtomatik yenilənir (demo).</p>
                     <div className="pt-4 border-t border-slate-100">
                       <h4 className="font-semibold text-slate-800 mb-3 text-sm">Şifrəni Dəyiş</h4>
                       <div className="space-y-3">

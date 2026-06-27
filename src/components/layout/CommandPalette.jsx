@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Calendar, Grid3x3, BarChart3, Settings, Users, LayoutDashboard, ArrowRight } from 'lucide-react';
+import { Search, Calendar, Grid3x3, BarChart3, Settings, Users, LayoutDashboard, ArrowRight, UserCircle, UtensilsCrossed, PartyPopper, ChefHat, MessageSquare, ClipboardList, ConciergeBell, Receipt, CreditCard, ListChecks, Award, AlertCircle } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 
 const CommandPalette = ({ isOpen, onClose }) => {
@@ -24,8 +24,21 @@ const CommandPalette = ({ isOpen, onClose }) => {
   const pages = [
     { label: 'Dashboard', path: '/dashboard', icon: LayoutDashboard, keywords: 'panel əsas' },
     { label: 'Rezervasiyalar', path: '/reservations', icon: Calendar, keywords: 'rezervasiya booking' },
+    { label: 'Tədbirlər', path: '/events', icon: PartyPopper, keywords: 'tədbir ad günü toy nişan' },
     { label: 'Gözləmə Siyahısı', path: '/waitlist', icon: Users, keywords: 'waitlist gözləmə' },
     { label: 'Masa Planı', path: '/floor-plan', icon: Grid3x3, keywords: 'masa plan floor' },
+    { label: 'Müştərilər', path: '/customers', icon: UserCircle, keywords: 'crm müştəri' },
+    { label: 'Menyu', path: '/menu', icon: UtensilsCrossed, keywords: 'menyu yemək' },
+    { label: 'Personal', path: '/staff', icon: Users, keywords: 'işçi staff' },
+    { label: 'Qəbul Masası', path: '/hostess', icon: ConciergeBell, keywords: 'hostess qəbul gəliş' },
+    { label: 'Gün Sonu', path: '/daily-close', icon: Receipt, keywords: 'z hesabat kassa gün sonu' },
+    { label: 'Operativ Mərkəz', path: '/operations', icon: ClipboardList, keywords: 'operativ proqnoz gəlir pacing' },
+    { label: 'Kassa', path: '/billing', icon: CreditCard, keywords: 'kassa hesab ödəniş tip' },
+    { label: 'Prep Siyahısı', path: '/prep', icon: ListChecks, keywords: 'prep mətbəx hazırlıq' },
+    { label: 'Loyalty', path: '/loyalty', icon: Award, keywords: 'loyalty xal kampaniya' },
+    { label: 'Incidentlər', path: '/incidents', icon: AlertCircle, keywords: 'şikayət incident problem' },
+    { label: 'Mətbəx', path: '/kitchen', icon: ChefHat, keywords: 'mətbəx expo kitchen sifariş' },
+    { label: 'Mesajlar', path: '/communications', icon: MessageSquare, keywords: 'sms mesaj whatsapp' },
     { label: 'Analitika', path: '/analytics', icon: BarChart3, keywords: 'statistika hesabat' },
     { label: 'Tənzimləmələr', path: '/settings', icon: Settings, keywords: 'settings parametr' },
   ];

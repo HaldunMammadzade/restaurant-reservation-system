@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Calendar, Users, Sparkles, Grid3x3, TrendingUp, CheckCheck } from 'lucide-react';
+import { X, Calendar, Users, Info, Grid3x3, TrendingUp, CheckCheck, PartyPopper } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { formatDistanceToNow } from 'date-fns';
 import { az } from 'date-fns/locale';
@@ -8,7 +8,8 @@ import { az } from 'date-fns/locale';
 const typeIcons = {
   reservation: Calendar,
   waitlist: Users,
-  ai: Sparkles,
+  capacity: Info,
+  event: PartyPopper,
   table: Grid3x3,
   revenue: TrendingUp,
 };
@@ -16,7 +17,8 @@ const typeIcons = {
 const typeColors = {
   reservation: 'bg-blue-50 text-blue-600',
   waitlist: 'bg-amber-50 text-amber-600',
-  ai: 'bg-violet-50 text-violet-600',
+  capacity: 'bg-slate-100 text-slate-600',
+  event: 'bg-pink-50 text-pink-700',
   table: 'bg-emerald-50 text-emerald-600',
   revenue: 'bg-rose-50 text-rose-600',
 };

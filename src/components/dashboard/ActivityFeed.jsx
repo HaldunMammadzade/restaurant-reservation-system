@@ -1,5 +1,5 @@
 import React from 'react';
-import { Calendar, Users, Grid3x3, Sparkles, XCircle, LogIn } from 'lucide-react';
+import { Calendar, Users, Grid3x3, MessageSquare, XCircle, LogIn, PartyPopper } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import { az } from 'date-fns/locale';
 import { useApp } from '../../context/AppContext';
@@ -9,7 +9,10 @@ const typeConfig = {
   reservation: { icon: Calendar, color: 'bg-blue-50 text-blue-600' },
   table: { icon: Grid3x3, color: 'bg-violet-50 text-violet-600' },
   waitlist: { icon: Users, color: 'bg-amber-50 text-amber-600' },
-  ai: { icon: Sparkles, color: 'bg-purple-50 text-purple-600' },
+  capacity: { icon: Grid3x3, color: 'bg-slate-100 text-slate-600' },
+  sms: { icon: MessageSquare, color: 'bg-cyan-50 text-cyan-700' },
+  event: { icon: PartyPopper, color: 'bg-pink-50 text-pink-700' },
+  customer: { icon: Users, color: 'bg-indigo-50 text-indigo-600' },
   cancel: { icon: XCircle, color: 'bg-rose-50 text-rose-600' },
 };
 

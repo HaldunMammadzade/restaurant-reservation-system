@@ -1,14 +1,13 @@
 import React from 'react';
-import { TABLE_STATUS_COLORS, TABLE_SHAPES } from '../../utils/constants';
+import { TABLE_STATUS_COLORS, TABLE_SHAPES, SERVICE_PHASE_COLORS } from '../../utils/constants';
 
 const Table = ({ table, isSelected, onClick, onDragStart, onDragEnd }) => {
   const getShapeStyles = () => {
-    const baseStyles = 'cursor-grab active:cursor-grabbing transition-all duration-300 hover:scale-110';
+    const base = 'cursor-grab active:cursor-grabbing transition-all duration-300 hover:scale-110';
     switch (table.shape) {
-      case TABLE_SHAPES.ROUND: return `${baseStyles} rounded-full`;
-      case TABLE_SHAPES.SQUARE: return `${baseStyles} rounded-xl`;
-      case TABLE_SHAPES.RECTANGLE: return `${baseStyles} rounded-xl`;
-      default: return `${baseStyles} rounded-xl`;
+      case TABLE_SHAPES.ROUND: return `${base} rounded-full`;
+      case TABLE_SHAPES.RECTANGLE: return `${base} rounded-xl`;
+      default: return `${base} rounded-xl`;
     }
   };
 
@@ -21,6 +20,7 @@ const Table = ({ table, isSelected, onClick, onDragStart, onDragEnd }) => {
 
   const size = getSize();
   const color = TABLE_STATUS_COLORS[table.status];
+  const phaseColor = table.servicePhase ? SERVICE_PHASE_COLORS[table.servicePhase] : null;
 
   return (
     <div
@@ -28,7 +28,7 @@ const Table = ({ table, isSelected, onClick, onDragStart, onDragEnd }) => {
       onDragStart={(e) => onDragStart(e, table)}
       onDragEnd={onDragEnd}
       onClick={() => onClick(table)}
-      className={`${getShapeStyles()} ${isSelected ? 'ring-[3px] ring-primary-500 ring-offset-2 z-10' : ''}`}
+      className={`${getShapeStyles()} ${isSelected ? 'ring-[3px] ring-primary-500 ring-offset-2 z-10' : ''} ${table.vip ? 'ring-2 ring-amber-400/60' : ''}`}
       style={{
         position: 'absolute',
         left: table.x,
@@ -36,15 +36,22 @@ const Table = ({ table, isSelected, onClick, onDragStart, onDragEnd }) => {
         width: size.width,
         height: size.height,
         backgroundColor: color,
-        transform: `rotate(${table.rotation}deg)`,
+        transform: `rotate(${table.rotation || 0}deg)`,
         boxShadow: isSelected
           ? '0 12px 28px rgba(99, 102, 241, 0.35)'
           : '0 4px 12px rgba(0, 0, 0, 0.12)',
       }}
     >
-      <div className="w-full h-full flex flex-col items-center justify-center text-white select-none">
+      {phaseColor && table.status === 'occupied' && (
+        <div className="absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full border-2 border-white shadow-sm"
+          style={{ backgroundColor: phaseColor }} />
+      )}
+      <div className="w-full h-full flex flex-col items-center justify-center text-white select-none px-1">
         <div className="text-base font-bold leading-none">{table.number}</div>
         <div className="text-[9px] mt-0.5 opacity-90 font-medium">{table.capacity} nəfər</div>
+        {table.guestName && (
+          <div className="text-[8px] mt-0.5 opacity-80 truncate max-w-full">{table.guestName.split(' ')[0]}</div>
+        )}
       </div>
     </div>
   );
