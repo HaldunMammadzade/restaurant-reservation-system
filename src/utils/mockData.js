@@ -19,50 +19,50 @@ const t = (id, number, floorId, zone, capacity, shape, status, x, y, extra = {})
 });
 
 export const mockTables = [
-  // Zemin
-  t('t_g1', 'G1', 'floor_g', 'Qəbul', 2, TABLE_SHAPES.ROUND, TABLE_STATUS.AVAILABLE, 60, 80),
-  t('t_g2', 'G2', 'floor_g', 'Pəncərə', 4, TABLE_SHAPES.SQUARE, TABLE_STATUS.OCCUPIED, 180, 60, {
+  // Zemin — Masa 1–8
+  t('t_g1', '1', 'floor_g', 'Qəbul', 2, TABLE_SHAPES.ROUND, TABLE_STATUS.AVAILABLE, 60, 80),
+  t('t_g2', '2', 'floor_g', 'Pəncərə', 4, TABLE_SHAPES.SQUARE, TABLE_STATUS.OCCUPIED, 180, 60, {
     guestName: 'Aysel M.', partySize: 3, servicePhase: SERVICE_PHASE.MAIN, seatedAt: Date.now() - 2700000, serverId: 's1',
     orders: [
       { id: 'ord1', menuItemId: 'm1', name: 'Şəki Plovu', price: 28, qty: 2, status: 'ready', addedAt: new Date(Date.now() - 1800000).toISOString() },
       { id: 'ord2', menuItemId: 'm5', name: 'Ayran Ev', price: 4, qty: 3, status: 'kitchen', addedAt: new Date(Date.now() - 600000).toISOString() },
     ],
   }),
-  t('t_g3', 'G3', 'floor_g', 'Pəncərə', 4, TABLE_SHAPES.ROUND, TABLE_STATUS.RESERVED, 320, 60),
-  t('t_g4', 'G4', 'floor_g', 'Əsas Salon', 6, TABLE_SHAPES.RECTANGLE, TABLE_STATUS.OCCUPIED, 60, 200, { guestName: 'Korporativ', partySize: 6, servicePhase: SERVICE_PHASE.APPETIZER, seatedAt: Date.now() - 900000 }),
-  t('t_g5', 'G5', 'floor_g', 'Əsas Salon', 4, TABLE_SHAPES.SQUARE, TABLE_STATUS.AVAILABLE, 220, 200),
-  t('t_g6', 'G6', 'floor_g', 'Bar', 2, TABLE_SHAPES.ROUND, TABLE_STATUS.OCCUPIED, 400, 180, { guestName: 'Elvin H.', partySize: 2, servicePhase: SERVICE_PHASE.BILL, seatedAt: Date.now() - 5400000 }),
-  t('t_g7', 'G7', 'floor_g', 'Bar', 2, TABLE_SHAPES.SQUARE, TABLE_STATUS.CLEANING, 500, 180),
-  t('t_g8', 'G8', 'floor_g', 'Əsas Salon', 8, TABLE_SHAPES.RECTANGLE, TABLE_STATUS.RESERVED, 140, 340),
-  // 1-ci mərtəbə
-  t('t_11', '101', 'floor_1', 'Pəncərə', 2, TABLE_SHAPES.ROUND, TABLE_STATUS.OCCUPIED, 80, 70, { guestName: 'Leyla Ə.', partySize: 2, servicePhase: SERVICE_PHASE.DESSERT, seatedAt: Date.now() - 3600000 }),
-  t('t_12', '102', 'floor_1', 'Pəncərə', 4, TABLE_SHAPES.SQUARE, TABLE_STATUS.AVAILABLE, 200, 70),
-  t('t_13', '103', 'floor_1', 'Mərkəz', 4, TABLE_SHAPES.ROUND, TABLE_STATUS.RESERVED, 340, 70),
-  t('t_14', '104', 'floor_1', 'Mərkəz', 6, TABLE_SHAPES.RECTANGLE, TABLE_STATUS.OCCUPIED, 80, 220, { guestName: 'Rəşad Q.', partySize: 4, servicePhase: SERVICE_PHASE.MAIN, seatedAt: Date.now() - 1800000 }),
-  t('t_15', '105', 'floor_1', 'Künc', 4, TABLE_SHAPES.SQUARE, TABLE_STATUS.AVAILABLE, 260, 220),
-  t('t_16', '106', 'floor_1', 'Künc', 2, TABLE_SHAPES.ROUND, TABLE_STATUS.AVAILABLE, 400, 220),
-  // Terras
-  t('t_t1', 'T1', 'floor_t', 'Panorama', 4, TABLE_SHAPES.ROUND, TABLE_STATUS.OCCUPIED, 100, 100, { guestName: 'Nərgiz S.', partySize: 4, servicePhase: SERVICE_PHASE.SEATED, seatedAt: Date.now() - 600000 }),
-  t('t_t2', 'T2', 'floor_t', 'Panorama', 4, TABLE_SHAPES.SQUARE, TABLE_STATUS.AVAILABLE, 260, 100),
-  t('t_t3', 'T3', 'floor_t', 'Bağ', 6, TABLE_SHAPES.RECTANGLE, TABLE_STATUS.RESERVED, 100, 260),
-  t('t_t4', 'T4', 'floor_t', 'Bağ', 2, TABLE_SHAPES.ROUND, TABLE_STATUS.AVAILABLE, 300, 260),
-  t('t_t5', 'T5', 'floor_t', 'Bar Terras', 2, TABLE_SHAPES.SQUARE, TABLE_STATUS.OCCUPIED, 420, 180, { guestName: 'Cütlük', partySize: 2, servicePhase: SERVICE_PHASE.APPETIZER, seatedAt: Date.now() - 1200000 }),
-  // VIP
-  t('t_v1', 'V1', 'floor_v', 'Private Room A', 8, TABLE_SHAPES.RECTANGLE, TABLE_STATUS.RESERVED, 120, 120, { minimumSpend: 500 }),
-  t('t_v2', 'V2', 'floor_v', 'Private Room A', 6, TABLE_SHAPES.RECTANGLE, TABLE_STATUS.OCCUPIED, 120, 280, { guestName: 'VIP Qonaq', partySize: 6, servicePhase: SERVICE_PHASE.MAIN, seatedAt: Date.now() - 4200000, vip: true, minimumSpend: 400 }),
-  t('t_v3', 'V3', 'floor_v', 'Private Room B', 4, TABLE_SHAPES.ROUND, TABLE_STATUS.AVAILABLE, 380, 120),
-  t('t_v4', 'V4', 'floor_v', 'Lounge', 2, TABLE_SHAPES.ROUND, TABLE_STATUS.AVAILABLE, 380, 280),
+  t('t_g3', '3', 'floor_g', 'Pəncərə', 4, TABLE_SHAPES.ROUND, TABLE_STATUS.AVAILABLE, 320, 60),
+  t('t_g4', '4', 'floor_g', 'Əsas Salon', 6, TABLE_SHAPES.RECTANGLE, TABLE_STATUS.AVAILABLE, 60, 200),
+  t('t_g5', '5', 'floor_g', 'Əsas Salon', 4, TABLE_SHAPES.SQUARE, TABLE_STATUS.AVAILABLE, 220, 200),
+  t('t_g6', '6', 'floor_g', 'Bar', 2, TABLE_SHAPES.ROUND, TABLE_STATUS.OCCUPIED, 400, 180, { guestName: 'Elvin H.', partySize: 2, servicePhase: SERVICE_PHASE.BILL, seatedAt: Date.now() - 5400000 }),
+  t('t_g7', '7', 'floor_g', 'Bar', 2, TABLE_SHAPES.SQUARE, TABLE_STATUS.CLEANING, 500, 180),
+  t('t_g8', '8', 'floor_g', 'Əsas Salon', 8, TABLE_SHAPES.RECTANGLE, TABLE_STATUS.RESERVED, 140, 340),
+  // 1-ci mərtəbə — Masa 9–14
+  t('t_11', '9', 'floor_1', 'Pəncərə', 2, TABLE_SHAPES.ROUND, TABLE_STATUS.RESERVED, 80, 70),
+  t('t_12', '10', 'floor_1', 'Pəncərə', 4, TABLE_SHAPES.SQUARE, TABLE_STATUS.AVAILABLE, 200, 70),
+  t('t_13', '11', 'floor_1', 'Mərkəz', 4, TABLE_SHAPES.ROUND, TABLE_STATUS.AVAILABLE, 340, 70),
+  t('t_14', '12', 'floor_1', 'Mərkəz', 6, TABLE_SHAPES.RECTANGLE, TABLE_STATUS.AVAILABLE, 80, 220),
+  t('t_15', '13', 'floor_1', 'Künc', 4, TABLE_SHAPES.SQUARE, TABLE_STATUS.AVAILABLE, 260, 220),
+  t('t_16', '14', 'floor_1', 'Künc', 2, TABLE_SHAPES.ROUND, TABLE_STATUS.AVAILABLE, 400, 220),
+  // Terras — Masa 15–19
+  t('t_t1', '15', 'floor_t', 'Panorama', 4, TABLE_SHAPES.ROUND, TABLE_STATUS.AVAILABLE, 100, 100),
+  t('t_t2', '16', 'floor_t', 'Panorama', 4, TABLE_SHAPES.SQUARE, TABLE_STATUS.AVAILABLE, 260, 100),
+  t('t_t3', '17', 'floor_t', 'Bağ', 6, TABLE_SHAPES.RECTANGLE, TABLE_STATUS.AVAILABLE, 100, 260),
+  t('t_t4', '18', 'floor_t', 'Bağ', 2, TABLE_SHAPES.ROUND, TABLE_STATUS.AVAILABLE, 300, 260),
+  t('t_t5', '19', 'floor_t', 'Bar Terras', 2, TABLE_SHAPES.SQUARE, TABLE_STATUS.AVAILABLE, 420, 180),
+  // VIP — Masa 20–23
+  t('t_v1', '20', 'floor_v', 'Private Room A', 8, TABLE_SHAPES.RECTANGLE, TABLE_STATUS.RESERVED, 120, 120, { minimumSpend: 500 }),
+  t('t_v2', '21', 'floor_v', 'Private Room A', 6, TABLE_SHAPES.RECTANGLE, TABLE_STATUS.OCCUPIED, 120, 280, { guestName: 'VIP Qonaq', partySize: 6, servicePhase: SERVICE_PHASE.MAIN, seatedAt: Date.now() - 4200000, vip: true, minimumSpend: 400 }),
+  t('t_v3', '22', 'floor_v', 'Private Room B', 4, TABLE_SHAPES.ROUND, TABLE_STATUS.AVAILABLE, 380, 120),
+  t('t_v4', '23', 'floor_v', 'Lounge', 2, TABLE_SHAPES.ROUND, TABLE_STATUS.AVAILABLE, 380, 280),
 ];
 
 export const mockReservations = [
-  { id: 'RES00001', customerName: 'Aysel Məmmədova', customerPhone: '+994501234567', customerEmail: 'aysel@example.com', date: today.toISOString(), time: '19:00', partySize: 4, tableId: 't_g2', tableNumber: 'G2', status: RESERVATION_STATUS.CONFIRMED, notes: 'Pəncərə yaxını', createdAt: new Date(Date.now() - 3600000).toISOString(), vip: true, floorId: 'floor_g', zone: 'Pəncərə', occasionType: OCCASION_TYPES.STANDARD, deposit: 0, depositPaid: false, dietary: DIETARY_OPTIONS.NONE, source: BOOKING_SOURCE.PHONE, smsReminderSent: true },
-  { id: 'RES00002', customerName: 'Elvin Həsənov', customerPhone: '+994557654321', customerEmail: 'elvin@example.com', date: today.toISOString(), time: '20:00', partySize: 2, tableId: 't_g6', tableNumber: 'G6', status: RESERVATION_STATUS.PENDING, notes: '', createdAt: new Date(Date.now() - 7200000).toISOString(), vip: false, floorId: 'floor_g', zone: 'Bar', occasionType: OCCASION_TYPES.STANDARD, deposit: 0, depositPaid: false, dietary: DIETARY_OPTIONS.NONE, source: BOOKING_SOURCE.INSTAGRAM },
-  { id: 'RES00003', customerName: 'Leyla Əliyeva', customerPhone: '+994701112233', customerEmail: 'leyla@example.com', date: tomorrow.toISOString(), time: '18:30', partySize: 6, tableId: 't_g8', tableNumber: 'G8', status: RESERVATION_STATUS.CONFIRMED, notes: 'Ad günü tortu gətiriləcək', createdAt: new Date(Date.now() - 86400000).toISOString(), vip: true, floorId: 'floor_g', zone: 'Əsas Salon', occasionType: OCCASION_TYPES.BIRTHDAY, deposit: 100, depositPaid: true, dietary: DIETARY_OPTIONS.GLUTEN_FREE, source: BOOKING_SOURCE.MANAGER, eventId: 'EVT001' },
-  { id: 'RES00004', customerName: 'Rəşad Quliyev', customerPhone: '+994551998877', customerEmail: 'rashad@example.com', date: today.toISOString(), time: '13:00', partySize: 3, tableId: 't_14', tableNumber: '104', status: RESERVATION_STATUS.CHECKED_IN, notes: 'Vegetarian menyu', createdAt: new Date(Date.now() - 10800000).toISOString(), vip: false, floorId: 'floor_1', zone: 'Mərkəz', occasionType: OCCASION_TYPES.STANDARD, deposit: 0, dietary: DIETARY_OPTIONS.VEGETARIAN, source: BOOKING_SOURCE.WALKIN },
-  { id: 'RES00005', customerName: 'Nərgiz Səfərova', customerPhone: '+994503334455', customerEmail: 'nargiz@example.com', date: today.toISOString(), time: '21:30', partySize: 8, tableId: 't_v1', tableNumber: 'V1', status: RESERVATION_STATUS.CONFIRMED, notes: 'Korporativ şam yeməyi', createdAt: new Date(Date.now() - 172800000).toISOString(), vip: true, floorId: 'floor_v', zone: 'Private Room A', occasionType: OCCASION_TYPES.CORPORATE, deposit: 500, depositPaid: true, dietary: DIETARY_OPTIONS.NONE, source: BOOKING_SOURCE.MANAGER, eventId: 'EVT002' },
-  { id: 'RES00006', customerName: 'Kamran Əhmədov', customerPhone: '+994507776655', customerEmail: 'kamran@example.com', date: dayAfter.toISOString(), time: '19:30', partySize: 4, tableId: 't_t3', tableNumber: 'T3', status: RESERVATION_STATUS.CONFIRMED, notes: '', createdAt: new Date(Date.now() - 43200000).toISOString(), vip: false, floorId: 'floor_t', zone: 'Bağ', occasionType: OCCASION_TYPES.ANNIVERSARY, deposit: 50, depositPaid: true, source: BOOKING_SOURCE.QR },
-  { id: 'RES00007', customerName: 'Səbinə Rüstəmova', customerPhone: '+994551234999', date: today.toISOString(), time: '19:30', partySize: 2, tableId: 't_11', tableNumber: '101', status: RESERVATION_STATUS.CONFIRMED, notes: 'Romantik axşam — nişan', vip: true, floorId: 'floor_1', zone: 'Pəncərə', occasionType: OCCASION_TYPES.ENGAGEMENT, deposit: 80, depositPaid: true, source: BOOKING_SOURCE.PHONE, smsReminderSent: true },
-  { id: 'RES00008', customerName: 'Tural Məlikov', customerPhone: '+994501112233', date: today.toISOString(), time: '20:30', partySize: 4, tableId: 't_g5', tableNumber: 'G5', status: RESERVATION_STATUS.CONFIRMED, floorId: 'floor_g', zone: 'Əsas Salon', occasionType: OCCASION_TYPES.STANDARD, source: BOOKING_SOURCE.QR, createdAt: new Date().toISOString() },
+  { id: 'RES00001', customerName: 'Aysel Məmmədova', customerPhone: '+994501234567', customerEmail: 'aysel@example.com', date: today.toISOString(), time: '19:00', partySize: 4, tableId: 't_g2', tableNumber: '2', status: RESERVATION_STATUS.CONFIRMED, notes: 'Pəncərə yaxını', createdAt: new Date(Date.now() - 3600000).toISOString(), vip: true, floorId: 'floor_g', zone: 'Pəncərə', occasionType: OCCASION_TYPES.STANDARD, deposit: 0, depositPaid: false, dietary: DIETARY_OPTIONS.NONE, source: BOOKING_SOURCE.PHONE, smsReminderSent: true },
+  { id: 'RES00002', customerName: 'Elvin Həsənov', customerPhone: '+994557654321', customerEmail: 'elvin@example.com', date: today.toISOString(), time: '20:00', partySize: 2, tableId: 't_g6', tableNumber: '6', status: RESERVATION_STATUS.PENDING, notes: '', createdAt: new Date(Date.now() - 7200000).toISOString(), vip: false, floorId: 'floor_g', zone: 'Bar', occasionType: OCCASION_TYPES.STANDARD, deposit: 0, depositPaid: false, dietary: DIETARY_OPTIONS.NONE, source: BOOKING_SOURCE.INSTAGRAM },
+  { id: 'RES00003', customerName: 'Leyla Əliyeva', customerPhone: '+994701112233', customerEmail: 'leyla@example.com', date: tomorrow.toISOString(), time: '18:30', partySize: 6, tableId: 't_g8', tableNumber: '8', status: RESERVATION_STATUS.CONFIRMED, notes: 'Ad günü tortu gətiriləcək', createdAt: new Date(Date.now() - 86400000).toISOString(), vip: true, floorId: 'floor_g', zone: 'Əsas Salon', occasionType: OCCASION_TYPES.BIRTHDAY, deposit: 100, depositPaid: true, dietary: DIETARY_OPTIONS.GLUTEN_FREE, source: BOOKING_SOURCE.MANAGER, eventId: 'EVT001' },
+  { id: 'RES00004', customerName: 'Rəşad Quliyev', customerPhone: '+994551998877', customerEmail: 'rashad@example.com', date: today.toISOString(), time: '13:00', partySize: 3, tableId: 't_14', tableNumber: '12', status: RESERVATION_STATUS.COMPLETED, notes: 'Vegetarian menyu', createdAt: new Date(Date.now() - 10800000).toISOString(), vip: false, floorId: 'floor_1', zone: 'Mərkəz', occasionType: OCCASION_TYPES.STANDARD, deposit: 0, dietary: DIETARY_OPTIONS.VEGETARIAN, source: BOOKING_SOURCE.WALKIN },
+  { id: 'RES00005', customerName: 'Nərgiz Səfərova', customerPhone: '+994503334455', customerEmail: 'nargiz@example.com', date: today.toISOString(), time: '21:30', partySize: 8, tableId: 't_v1', tableNumber: '20', status: RESERVATION_STATUS.CONFIRMED, notes: 'Korporativ şam yeməyi', createdAt: new Date(Date.now() - 172800000).toISOString(), vip: true, floorId: 'floor_v', zone: 'Private Room A', occasionType: OCCASION_TYPES.CORPORATE, deposit: 500, depositPaid: true, dietary: DIETARY_OPTIONS.NONE, source: BOOKING_SOURCE.MANAGER, eventId: 'EVT002' },
+  { id: 'RES00006', customerName: 'Kamran Əhmədov', customerPhone: '+994507776655', customerEmail: 'kamran@example.com', date: dayAfter.toISOString(), time: '19:30', partySize: 4, tableId: 't_t3', tableNumber: '17', status: RESERVATION_STATUS.CONFIRMED, notes: '', createdAt: new Date(Date.now() - 43200000).toISOString(), vip: false, floorId: 'floor_t', zone: 'Bağ', occasionType: OCCASION_TYPES.ANNIVERSARY, deposit: 50, depositPaid: true, source: BOOKING_SOURCE.QR },
+  { id: 'RES00007', customerName: 'Səbinə Rüstəmova', customerPhone: '+994551234999', date: today.toISOString(), time: '19:30', partySize: 2, tableId: 't_11', tableNumber: '9', status: RESERVATION_STATUS.CONFIRMED, notes: 'Xüsusi axşam — nişan', vip: true, floorId: 'floor_1', zone: 'Pəncərə', occasionType: OCCASION_TYPES.ENGAGEMENT, deposit: 80, depositPaid: true, source: BOOKING_SOURCE.PHONE, smsReminderSent: true },
+  { id: 'RES00008', customerName: 'Tural Məlikov', customerPhone: '+994501112233', date: today.toISOString(), time: '20:30', partySize: 4, tableId: 't_g5', tableNumber: '5', status: RESERVATION_STATUS.CONFIRMED, floorId: 'floor_g', zone: 'Əsas Salon', occasionType: OCCASION_TYPES.STANDARD, source: BOOKING_SOURCE.QR, createdAt: new Date().toISOString() },
 ];
 
 export const mockWaitlist = [
@@ -73,7 +73,7 @@ export const mockWaitlist = [
 ];
 
 export const mockCustomers = [
-  { id: 'c1', name: 'Aysel Məmmədova', phone: '+994501234567', email: 'aysel@example.com', visitCount: 24, totalSpent: 3840, vip: true, loyaltyPoints: 3840, tags: ['VIP', 'Pəncərə', 'Şampan'], notes: 'Həmişə masa G2', specialNotes: 'Şampan ilə qarşılama', lastVisit: today.toISOString(), dietary: DIETARY_OPTIONS.NONE, noShowCount: 0, blacklisted: false },
+  { id: 'c1', name: 'Aysel Məmmədova', phone: '+994501234567', email: 'aysel@example.com', visitCount: 24, totalSpent: 3840, vip: true, loyaltyPoints: 3840, tags: ['VIP', 'Pəncərə', 'Şampan'], notes: 'Həmişə Masa 2', specialNotes: 'Şampan ilə qarşılama', lastVisit: today.toISOString(), dietary: DIETARY_OPTIONS.NONE, noShowCount: 0, blacklisted: false },
   { id: 'c2', name: 'Elvin Həsənov', phone: '+994557654321', email: 'elvin@example.com', visitCount: 8, totalSpent: 960, vip: false, loyaltyPoints: 420, tags: ['Bar'], lastVisit: today.toISOString(), blacklisted: false },
   { id: 'c3', name: 'Leyla Əliyeva', phone: '+994701112233', email: 'leyla@example.com', visitCount: 15, totalSpent: 4200, vip: true, loyaltyPoints: 2100, tags: ['VIP', 'Tədbir', 'Desert'], notes: 'Ad günləri üçün xüsusi menyu', lastVisit: tomorrow.toISOString(), blacklisted: false },
   { id: 'c4', name: 'Nərgiz Səfərova', phone: '+994503334455', email: 'nargiz@example.com', visitCount: 32, totalSpent: 12800, vip: true, loyaltyPoints: 6400, tags: ['VIP', 'Korporativ', 'VIP Salon'], notes: 'Aylıq korporativ rezervasiya', lastVisit: today.toISOString(), blacklisted: false },
@@ -207,7 +207,7 @@ export const mockNotifications = [
 export const mockActivities = [
   { id: 'a1', type: 'checkin', message: 'Rəşad Quliyev check-in — Masa 104 (1-ci Mərtəbə)', time: new Date(Date.now() - 120000).toISOString() },
   { id: 'a2', type: 'reservation', message: 'VIP rezervasiya: Nərgiz Səfərova — V1 Salon', time: new Date(Date.now() - 300000).toISOString() },
-  { id: 'a3', type: 'table', message: 'Masa G2 → Əsas yemək fazası', time: new Date(Date.now() - 480000).toISOString() },
+  { id: 'a3', type: 'table', message: 'Masa 2 → Əsas yemək fazası', time: new Date(Date.now() - 480000).toISOString() },
   { id: 'a4', type: 'waitlist', message: 'Diana Hüseynova VIP gözləmə siyahısına əlavə edildi', time: new Date(Date.now() - 600000).toISOString() },
   { id: 'a5', type: 'capacity', message: 'Terras 21:00 üçün əlavə 3 rezervasiya potensialı', time: new Date(Date.now() - 900000).toISOString() },
   { id: 'a6', type: 'cancel', message: 'Rezervasiya ləğv: #RES00099', time: new Date(Date.now() - 1200000).toISOString() },
@@ -229,11 +229,11 @@ export const mockAnalytics = {
   stats: { totalReservations: 284, todayReservations: 28, occupancyRate: 82, avgServiceTime: 54, revenue: 42350, noShowRate: 4, repeatCustomers: 68, avgPartySize: 3.9, satisfaction: 4.9 },
   chartData: { daily: generateDailyData(7), monthly: generateDailyData(30), yearly: generateDailyData(90) },
   topTables: [
-    { tableNumber: 'V2', reservations: 52, revenue: 18600 },
-    { tableNumber: 'G8', reservations: 48, revenue: 14200 },
-    { tableNumber: '101', reservations: 41, revenue: 9800 },
-    { tableNumber: 'T1', reservations: 38, revenue: 7600 },
-    { tableNumber: 'G2', reservations: 35, revenue: 7100 },
+    { tableNumber: '21', reservations: 52, revenue: 18600 },
+    { tableNumber: '8', reservations: 48, revenue: 14200 },
+    { tableNumber: '9', reservations: 41, revenue: 9800 },
+    { tableNumber: '15', reservations: 38, revenue: 7600 },
+    { tableNumber: '2', reservations: 35, revenue: 7100 },
   ],
   peakHours: [
     { hour: '12:00', count: 18 }, { hour: '13:00', count: 26 }, { hour: '14:00', count: 20 },
@@ -272,15 +272,15 @@ export const mockCampaigns = [
 ];
 
 export const mockIncidents = [
-  { id: 'inc1', type: 'complaint', customerName: 'Elvin Həsənov', tableNumber: 'G6', description: 'Yemək gecikdi — 25 dəq gözlədi', status: 'resolved', severity: 'medium', createdAt: new Date(Date.now() - 7200000).toISOString(), resolution: 'Desert comp verildi' },
-  { id: 'inc2', type: 'maintenance', customerName: '—', tableNumber: 'G7', description: 'Stul qırıq — təmir lazım', status: 'open', severity: 'low', createdAt: new Date(Date.now() - 3600000).toISOString() },
+  { id: 'inc1', type: 'complaint', customerName: 'Elvin Həsənov', tableNumber: '6', description: 'Yemək gecikdi — 25 dəq gözlədi', status: 'resolved', severity: 'medium', createdAt: new Date(Date.now() - 7200000).toISOString(), resolution: 'Desert comp verildi' },
+  { id: 'inc2', type: 'maintenance', customerName: '—', tableNumber: '7', description: 'Stul qırıq — təmir lazım', status: 'open', severity: 'low', createdAt: new Date(Date.now() - 3600000).toISOString() },
   { id: 'inc3', type: 'complaint', customerName: 'Tural Məlikov', tableNumber: '—', description: 'Səs çox yüksək idi', status: 'open', severity: 'low', createdAt: new Date(Date.now() - 1800000).toISOString() },
 ];
 
 export const mockFeedbacks = [
-  { id: 'fb1', customerName: 'Aysel Məmmədova', rating: 5, comment: 'Mükəmməl xidmət, plov əla idi', tableNumber: 'G2', createdAt: new Date(Date.now() - 86400000).toISOString() },
-  { id: 'fb2', customerName: 'Rəşad Quliyev', rating: 4, comment: 'Vegetarian menyu zəif idi', tableNumber: '104', createdAt: new Date(Date.now() - 43200000).toISOString() },
-  { id: 'fb3', customerName: 'Nərgiz Səfərova', rating: 5, comment: 'Korporativ axşam flawless', tableNumber: 'V1', createdAt: new Date(Date.now() - 172800000).toISOString() },
+  { id: 'fb1', customerName: 'Aysel Məmmədova', rating: 5, comment: 'Mükəmməl xidmət, plov əla idi', tableNumber: '2', createdAt: new Date(Date.now() - 86400000).toISOString() },
+  { id: 'fb2', customerName: 'Rəşad Quliyev', rating: 4, comment: 'Vegetarian menyu zəif idi', tableNumber: '12', createdAt: new Date(Date.now() - 43200000).toISOString() },
+  { id: 'fb3', customerName: 'Nərgiz Səfərova', rating: 5, comment: 'Korporativ axşam flawless', tableNumber: '20', createdAt: new Date(Date.now() - 172800000).toISOString() },
 ];
 
 export const mockBranches = [

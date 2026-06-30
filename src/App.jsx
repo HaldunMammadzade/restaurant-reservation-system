@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { Toaster } from 'react-hot-toast';
@@ -32,6 +32,8 @@ import Incidents from './pages/Incidents';
 import TableMenu from './pages/TableMenu';
 import QrBooking from './pages/QrBooking';
 
+const PresentationApp = lazy(() => import('../presentation/PresentationApp'));
+
 function App() {
   return (
     <Provider store={store}>
@@ -57,6 +59,15 @@ function App() {
               <Route path="/register" element={<Register />} />
               <Route path="/book/:qrCode" element={<QrBooking />} />
               <Route path="/table/:tableId" element={<TableMenu />} />
+              <Route path="/teqdimat/*" element={
+                <Suspense fallback={
+                  <div className="min-h-screen bg-[#050807] flex items-center justify-center">
+                    <div className="w-10 h-10 border-2 border-emerald-400 border-t-transparent rounded-full animate-spin" />
+                  </div>
+                }>
+                  <PresentationApp />
+                </Suspense>
+              } />
 
               <Route path="/" element={<ProtectedRoute><DashboardLayout /></ProtectedRoute>}>
                 <Route index element={<Navigate to="/dashboard" replace />} />

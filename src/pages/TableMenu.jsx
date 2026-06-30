@@ -37,7 +37,7 @@ const TableMenu = () => {
   if (!table) {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center p-6">
-        <p className="text-slate-500">Masa tapılmadı. URL: /table/t_g2</p>
+        <p className="text-slate-500">Masa tapılmadı. URL: /table/t_g2 və ya /table/2</p>
       </div>
     );
   }

@@ -4,7 +4,7 @@ import {
   LayoutDashboard, Calendar, Grid3x3, BarChart3, Settings,
   LogOut, Users, UserCircle, UtensilsCrossed, QrCode, PartyPopper,
   ChefHat, MessageSquare, ClipboardList, ConciergeBell, Receipt,
-  CreditCard, ListChecks, Award, AlertCircle,
+  CreditCard, ListChecks, Award, AlertCircle, Sparkles,
 } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 import { useApp } from '../../context/AppContext';
@@ -81,6 +81,10 @@ const Sidebar = ({ isOpen, onClose }) => {
           </nav>
 
           <div className="p-3 border-t border-white/10 space-y-1">
+            <NavLink to="/teqdimat" target="_blank"
+              className="flex items-center gap-2 px-3 py-2.5 rounded-lg bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/30 text-xs font-semibold transition-colors">
+              <Sparkles size={14} /> Təqdimat Demo
+            </NavLink>
             {currentRestaurant?.qrCode && (
               <NavLink to={`/book/${currentRestaurant.qrCode}`} target="_blank"
                 className="flex items-center gap-2 px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/5 text-xs">

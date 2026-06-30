@@ -12,7 +12,7 @@ import { pointsFromSpend } from '../utils/loyaltyEngine';
 import { computeTurnQueue } from '../utils/bookingConflict';
 import { computeSourceAnalytics } from '../utils/sourceAnalytics';
 
-const STORAGE_KEY = 'seatmind_app_v6';
+const STORAGE_KEY = 'seatmind_app_v7';
 
 const genId = (prefix) => `${prefix}_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 7)}`;
 
@@ -33,6 +33,16 @@ export const AppProvider = ({ children }) => {
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
   }, [state]);
+
+  useEffect(() => {
+    const onStorage = (e) => {
+      if (e.key === STORAGE_KEY && e.newValue) {
+        try { setState(JSON.parse(e.newValue)); } catch { /* ignore */ }
+      }
+    };
+    window.addEventListener('storage', onStorage);
+    return () => window.removeEventListener('storage', onStorage);
+  }, []);
 
   const update = useCallback((fn) => setState((prev) => (typeof fn === 'function' ? fn(prev) : fn)), []);
 
